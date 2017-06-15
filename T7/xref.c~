@@ -1,0 +1,99 @@
+#include<stdio.h>
+#include<string.h>
+
+char palavrasReservadas[6][10] = {"char", "for", "int", "return", "void", "while"};
+
+void processaPalavra(int ocorrencias[6][25], char palavra[50], int nLinha){
+	int i;
+
+	for(i = 0; i<6; i++){
+		if(strcmp(palavrasReservadas[i],palavra) == 0){
+			ocorrencias[i][nLinha-1] ++;
+			return;
+		}
+	}
+}
+
+
+void insertionSort(int ocorrencias[6][25], int n, int vet[6]) {
+	int i, j, aux;
+	char auxPalavra[10];
+	int *linha;
+
+	for (i = 1; i < n; i++) {
+		aux = vet[i];
+		strcpy(auxPalavra, palavrasReservadas[i]);
+		linha = ocorrencias[i];
+		
+		j = i - 1;
+
+		while ((j >= 0) && (vet[j] > aux)) {
+			vet[j+1] = vet[j];
+			strcpy(palavrasReservadas[j+1], palavrasReservadas[j]);
+			ocorrencias[j+1] = ocorrencias[j];
+			// TODO WHILE para transferir ocorrencias
+
+			j--;
+		}
+
+		vet[j+1] = aux;
+		strcpy(palavrasReservadas[j+1], auxPalavra);
+		ocorrencias[j+1] = linha;
+		// TODO WHILE para transferir ocorrencias
+	}
+}
+
+
+void ordenaOcorrencias(int ocorrencias[6][25], int nLinha, int totais[6]){
+	int soma = 0, i, j;
+
+	for(i=0; i<6; i++){
+		soma = 0;
+
+		for(j=0; j<nLinha; j++){
+			soma += ocorrencias[i][j];
+		}
+
+		totais[i] = soma;
+	}
+
+	insertionSort(ocorrencias, nLinha, totais);
+}
+
+
+
+
+int main(){
+	char palavra[50];
+	int aux = 0;
+	char entrada;
+	int nLinha = 1;
+	int ocorrencias[6][25];
+	int totais[6];
+	int i, j;
+
+	for(i=0; i<6; i++)
+		for(j=0; j<25; j++)
+			ocorrencias[i][j] = 0;
+
+	do{
+		scanf("%c",&entrada);
+
+		if(entrada != ' ' && entrada != 0 && entrada != '\t' && entrada != '\n'){
+			palavra[aux] = entrada;
+			aux++;
+		}else{
+			if(entrada == '\n')
+				nLinha++;
+
+			palavra[aux] = 0;
+			processaPalavra(ocorrencias,palavra,nLinha);
+			aux = 0;
+		}
+	} while (entrada != 0);
+
+	ordenaOcorrencias(ocorrencias,nLinha,totais);
+
+	return 0;
+}
+

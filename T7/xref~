@@ -1,0 +1,30 @@
+#include<stdio.h>
+
+char palavrasReservadas[6][10] = {"char", "for", "int", "return", "void", "while"};
+
+int main(){
+	char  palavra[];
+	int aux = 0;
+	char entrada;
+	int nLinha = 1;
+	int ocorrencias[6];
+
+	do{
+		scanf("%c",caracter);
+
+		if(caracter != ' ' && caracter != 0 && caracter != '	' && caracter != '\n'){
+			palavra[aux] = caracter;
+			aux++;
+		}else{
+			palavra[aux] = 0;
+			printf("%s\n",palavra);
+			//processaPalavra(palavra);
+			aux = 0;
+		}
+	} while (entrada != 0);
+
+
+
+	return 0;
+}
+
